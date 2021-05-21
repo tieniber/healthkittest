@@ -1,0 +1,51 @@
+{
+    "configVersion": 1,
+    "appIdentifier": "com.tieniber.healthkittest.mobile",
+    "appName": "HealthKitTest",
+    "bundleName": {
+        "main": "HealthKitTest",
+        "dev": "HealthKitTesDev"
+    },
+    "deviceTarget": {
+        "phone": true,
+        "tablet": false
+    },
+    "orientation": {
+        "portrait": true,
+        "landscape": false
+    },
+    "capabilities": {
+        "deepLink": {
+            "value": "",
+            "enabled": false
+        },
+        "maps": {
+            "value": "",
+            "enabled": false
+        },
+        "mapsIos": {
+            "value": {
+                "purpose": "To use that feature the app needs access to your location."
+            },
+            "enabled": false
+        },
+        "pushNotifications": {
+            "enabled": false
+        },
+        "crashlytics": {
+            "enabled": false
+        },
+        "firebaseAndroid": {
+            "enabled": false
+        },
+        "firebaseIos": {
+            "enabled": false
+        },
+        "localNotifications": {
+            "enabled": false
+        },
+        "appCenterOTA": {
+            "enabled": false
+        }
+    }
+}
