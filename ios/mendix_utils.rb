@@ -36,6 +36,10 @@ def generate_mendix_delegate
     didReceiveNotificationResponse: [],
   }
 
+  returnHooks = { 
+    boolean_openURLWithOptions: [], 
+  }
+
   capabilities_setup_config = get_capabilities_setup_config
   get_project_capabilities.select { |_, value| value == true }.each do |name, _|
     capability = capabilities_setup_config[name.to_s]
@@ -55,11 +59,16 @@ def generate_mendix_delegate
     hooks.each do |name, hook|
       hook << capability[name.to_s].map { |line| "  #{line}" } if !capability[name.to_s].nil?
     end
+
+    returnHooks.each do |name, hook|
+      hook << capability[name.to_s].map { |line| "  #{line}" } if !capability[name.to_s].nil?
+    end
   end
 
   File.open("MendixAppDelegate.m", "w") do |file|
     mendix_app_delegate = mendix_app_delegate_template.sub("{{ imports }}", stringify(imports))
     hooks.each { |name, hook| mendix_app_delegate.sub!("{{ #{name.to_s} }}", stringify(hook)) }
+    returnHooks.each { |name, hook| mendix_app_delegate.sub!("{{ #{name.to_s} }}", stringify(hook).length > 0 ? stringify(hook) : "  return YES;" ) }
     file << mendix_app_delegate
   end
 end
@@ -89,6 +98,10 @@ fetchCompletionHandler:(nonnull void (^)(UIBackgroundFetchResult))completionHand
 
 + (void) application:(UIApplication *)application didRegisterUserNotificationSettings:(UIUserNotificationSettings *)notificationSettings {
 {{ didRegisterUserNotificationSettings }}
+}
+
++ (BOOL) application:(UIApplication *)application openURL:(NSURL *)url options:(NSDictionary<UIApplicationOpenURLOptionsKey,id> *)options {
+{{ boolean_openURLWithOptions }}
 }
 
 + (void) application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation {
